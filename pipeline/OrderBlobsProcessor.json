@@ -28,6 +28,27 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Foreach",
+				"description": "Iterate through each processable Blob",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Load Processable Blobs",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Load Processable Blobs').output",
+						"type": "Expression"
+					},
+					"isSequential": true
+				}
 			}
 		],
 		"concurrency": 1,
