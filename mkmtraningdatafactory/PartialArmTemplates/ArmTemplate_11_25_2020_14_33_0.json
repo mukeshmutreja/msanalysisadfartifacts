@@ -6,57 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "mkmtraningdatafactory"
-		},
-		"mkmsqlserverconnection_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'mkmsqlserverconnection'"
-		},
-		"keyvaultconnection_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://mkmkeyvault.vault.azure.net/"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/keyvaultconnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Training Key vault connection",
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('keyvaultconnection_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/mkmsqlserverconnection')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('mkmsqlserverconnection_connectionString')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "keyvaultconnection",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "sqlpassword"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/keyvaultconnection')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SQLServerMetadataDataSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -137,9 +92,7 @@
 					"table": "BlobMetadata"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/mkmsqlserverconnection')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/OrderBlobsProcessor')]",
@@ -169,8 +122,7 @@
 							},
 							"dataset": {
 								"referenceName": "SQLServerMetadataDataSet",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}

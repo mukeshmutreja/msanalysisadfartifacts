@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "mkmtraningdatafactory"
 		},
+		"mkmsqlserverconnection_connectionString": {
+			"value": ""
+		},
 		"keyvaultconnection_properties_typeProperties_baseUrl": {
 			"value": "https://mkmkeyvault.vault.azure.net/"
 		}
