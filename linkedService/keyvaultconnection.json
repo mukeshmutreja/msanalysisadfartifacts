@@ -1,0 +1,11 @@
+{
+	"name": "keyvaultconnection",
+	"properties": {
+		"description": "Training Key vault connection",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://mkmkeyvault.vault.azure.net/"
+		}
+	}
+}
